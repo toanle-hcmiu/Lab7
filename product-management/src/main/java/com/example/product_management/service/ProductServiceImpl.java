@@ -2,7 +2,6 @@ package com.example.product_management.service;
 
 import com.example.product_management.entity.Product;
 import com.example.product_management.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ public class ProductServiceImpl implements ProductService {
     
     private final ProductRepository productRepository;
     
-    @Autowired
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
