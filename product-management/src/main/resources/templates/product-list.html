@@ -4,7 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --bg-input: #21262d;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent-cyan: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-red: #f85149;
+            --accent-orange: #d29922;
+            --accent-purple: #a371f7;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,166 +29,589 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
             min-height: 100vh;
-            padding: 20px;
+            color: var(--text-primary);
+            padding: 24px;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         
-        h1 {
-            color: #667eea;
-            margin-bottom: 20px;
-            text-align: center;
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
         
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        /* Alerts */
         .alert {
-            padding: 15px;
+            padding: 14px 18px;
+            border-radius: 8px;
             margin-bottom: 20px;
-            border-radius: 5px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: rgba(63, 185, 80, 0.15);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
         }
         
         .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: rgba(248, 81, 73, 0.15);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
         }
         
-        .actions {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
+        /* Buttons */
         .btn {
-            padding: 10px 20px;
+            padding: 10px 18px;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
         
         .btn-primary {
-            background-color: #667eea;
-            color: white;
+            background: var(--accent-cyan);
+            color: var(--bg-dark);
         }
         
         .btn-primary:hover {
-            background-color: #5568d3;
+            background: #79b8ff;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border-color);
         }
         
         .btn-success {
-            background-color: #28a745;
-            color: white;
+            background: var(--accent-green);
+            color: var(--bg-dark);
         }
         
         .btn-danger {
-            background-color: #dc3545;
+            background: var(--accent-red);
             color: white;
         }
         
         .btn-sm {
-            padding: 5px 10px;
-            font-size: 14px;
+            padding: 6px 12px;
+            font-size: 13px;
         }
         
-        .search-form {
+        /* Search & Filter Section */
+        .search-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .search-row {
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
         }
         
-        .search-form input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            flex: 1;
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .form-group label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            min-width: 160px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+        
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        /* Advanced Search Toggle */
+        .advanced-toggle {
+            color: var(--accent-cyan);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        
+        .advanced-toggle:hover {
+            text-decoration: underline;
+        }
+        
+        .advanced-search-panel {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            display: none;
+        }
+        
+        .advanced-search-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Table */
+        .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
         
         th, td {
-            padding: 12px;
+            padding: 14px 18px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
         }
         
         th {
-            background-color: #667eea;
-            color: white;
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        th a:hover {
+            color: var(--accent-cyan);
+        }
+        
+        th .sort-icon {
+            font-size: 10px;
+        }
+        
+        tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.2s;
+        }
+        
+        tr:last-child {
+            border-bottom: none;
         }
         
         tr:hover {
-            background-color: #f5f5f5;
+            background: rgba(88, 166, 255, 0.05);
         }
         
+        td {
+            font-size: 14px;
+        }
+        
+        .product-code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-purple);
+            font-size: 13px;
+        }
+        
+        .price {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+        
+        .quantity {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .quantity.low {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--accent-red);
+        }
+        
+        .quantity.medium {
+            background: rgba(210, 153, 34, 0.15);
+            color: var(--accent-orange);
+        }
+        
+        .quantity.high {
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .actions-cell {
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 40px;
-            color: #666;
+            padding: 60px 20px;
+            color: var(--text-secondary);
         }
         
-        .actions-column {
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        /* Pagination */
+        .pagination {
             display: flex;
-            gap: 5px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .pagination a, .pagination span {
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .pagination a {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .pagination a:hover {
+            background: var(--border-color);
+        }
+        
+        .pagination .active {
+            background: var(--accent-cyan);
+            color: var(--bg-dark);
+            font-weight: 600;
+        }
+        
+        .pagination .disabled {
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+        
+        /* Info Bar */
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            background: var(--bg-input);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .results-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Category Filter Pills */
+        .filter-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .filter-pill {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.2s;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        .filter-pill:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+        
+        .filter-pill.active {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: var(--bg-dark);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-row {
+                flex-direction: column;
+            }
+            
+            .form-group input,
+            .form-group select {
+                min-width: 100%;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            table {
+                min-width: 800px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📦 Product Management System</h1>
+        <!-- Header -->
+        <div class="header">
+            <h1>📦 Product Management</h1>
+            <div class="header-actions">
+                <a th:href="@{/dashboard}" class="btn btn-secondary">📊 Dashboard</a>
+                <a th:href="@{/products/new}" class="btn btn-primary">+ Add Product</a>
+            </div>
+        </div>
         
         <!-- Success Message -->
         <div th:if="${message}" class="alert alert-success">
+            <span>✓</span>
             <span th:text="${message}"></span>
         </div>
         
         <!-- Error Message -->
         <div th:if="${error}" class="alert alert-error">
+            <span>✕</span>
             <span th:text="${error}"></span>
         </div>
         
-        <!-- Actions -->
-        <div class="actions">
-            <a th:href="@{/products/new}" class="btn btn-primary">➕ Add New Product</a>
+        <!-- Search & Filter Section -->
+        <div class="search-section">
+            <!-- Category Filter Pills -->
+            <div class="filter-pills">
+                <a th:href="@{/products}" 
+                   th:classappend="${selectedCategory == null} ? 'active' : ''"
+                   class="filter-pill">All</a>
+                <a th:each="cat : ${categories}"
+                   th:href="@{/products(category=${cat}, sortBy=${sortBy}, sortDir=${sortDir})}"
+                   th:text="${cat}"
+                   th:classappend="${cat == selectedCategory} ? 'active' : ''"
+                   class="filter-pill">Category</a>
+            </div>
             
-            <form th:action="@{/products/search}" method="get" class="search-form">
-                <input type="text" name="keyword" th:value="${keyword}" placeholder="Search products..." />
-                <button type="submit" class="btn btn-primary">🔍 Search</button>
+            <!-- Simple Search Form -->
+            <form th:action="@{/products/search}" method="get" class="search-row">
+                <div class="form-group" style="flex: 1;">
+                    <label>Quick Search</label>
+                    <input type="text" name="keyword" th:value="${keyword}" placeholder="Search by product name..." />
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-bottom: 0;">🔍 Search</button>
+                <a th:href="@{/products}" class="btn btn-secondary" style="margin-bottom: 0;">Clear</a>
             </form>
+            
+            <!-- Advanced Search Toggle -->
+            <div class="advanced-toggle" onclick="toggleAdvancedSearch()">
+                <span id="toggleIcon">▶</span> Advanced Search
+            </div>
+            
+            <!-- Advanced Search Panel -->
+            <div id="advancedSearch" th:classappend="${showAdvancedSearch} ? 'active' : ''" class="advanced-search-panel">
+                <form th:action="@{/products/advanced-search}" method="get" class="search-row">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="name" th:value="${name}" placeholder="Contains..." />
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="category">
+                            <option value="">All Categories</option>
+                            <option th:each="cat : ${categories}" 
+                                    th:value="${cat}" 
+                                    th:text="${cat}"
+                                    th:selected="${cat == selectedCategory}">Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Min Price ($)</label>
+                        <input type="number" name="minPrice" th:value="${minPrice}" step="0.01" min="0" placeholder="0.00" />
+                    </div>
+                    <div class="form-group">
+                        <label>Max Price ($)</label>
+                        <input type="number" name="maxPrice" th:value="${maxPrice}" step="0.01" min="0" placeholder="999999.99" />
+                    </div>
+                    <div class="form-group">
+                        <label>Sort By</label>
+                        <select name="sortBy">
+                            <option value="">Default</option>
+                            <option value="name" th:selected="${sortBy == 'name'}">Name</option>
+                            <option value="price" th:selected="${sortBy == 'price'}">Price</option>
+                            <option value="quantity" th:selected="${sortBy == 'quantity'}">Quantity</option>
+                            <option value="category" th:selected="${sortBy == 'category'}">Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Order</label>
+                        <select name="sortDir">
+                            <option value="asc" th:selected="${sortDir == 'asc'}">Ascending</option>
+                            <option value="desc" th:selected="${sortDir == 'desc'}">Descending</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">🔍 Search</button>
+                </form>
+            </div>
         </div>
         
         <!-- Products Table -->
-        <div th:if="${products != null and !products.isEmpty()}">
+        <div th:if="${products != null and !products.isEmpty()}" class="table-container">
+            <!-- Info Bar -->
+            <div class="info-bar">
+                <div class="results-count">
+                    <span th:if="${totalItems != null}" th:text="'Showing ' + ${#lists.size(products)} + ' of ' + ${totalItems} + ' products'">Results</span>
+                    <span th:unless="${totalItems != null}" th:text="'Showing ' + ${#lists.size(products)} + ' products'">Results</span>
+                </div>
+                <div th:if="${keyword != null and keyword != ''}">
+                    Searching for: <strong th:text="${keyword}"></strong>
+                </div>
+            </div>
+            
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>
+                            <a th:href="@{/products(category=${selectedCategory}, sortBy='id', sortDir=${sortBy == 'id' ? reverseSortDir : 'asc'})}">
+                                ID
+                                <span th:if="${sortBy == 'id'}" class="sort-icon" th:text="${sortDir == 'asc'} ? '▲' : '▼'"></span>
+                            </a>
+                        </th>
                         <th>Code</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
+                        <th>
+                            <a th:href="@{/products(category=${selectedCategory}, sortBy='name', sortDir=${sortBy == 'name' ? reverseSortDir : 'asc'})}">
+                                Name
+                                <span th:if="${sortBy == 'name'}" class="sort-icon" th:text="${sortDir == 'asc'} ? '▲' : '▼'"></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a th:href="@{/products(category=${selectedCategory}, sortBy='price', sortDir=${sortBy == 'price' ? reverseSortDir : 'asc'})}">
+                                Price
+                                <span th:if="${sortBy == 'price'}" class="sort-icon" th:text="${sortDir == 'asc'} ? '▲' : '▼'"></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a th:href="@{/products(category=${selectedCategory}, sortBy='quantity', sortDir=${sortBy == 'quantity' ? reverseSortDir : 'asc'})}">
+                                Quantity
+                                <span th:if="${sortBy == 'quantity'}" class="sort-icon" th:text="${sortDir == 'asc'} ? '▲' : '▼'"></span>
+                            </a>
+                        </th>
                         <th>Category</th>
                         <th>Actions</th>
                     </tr>
@@ -179,31 +619,73 @@
                 <tbody>
                     <tr th:each="product : ${products}">
                         <td th:text="${product.id}">1</td>
-                        <td th:text="${product.productCode}">P001</td>
+                        <td><span class="product-code" th:text="${product.productCode}">P001</span></td>
                         <td th:text="${product.name}">Product Name</td>
-                        <td th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}">$99.99</td>
-                        <td th:text="${product.quantity}">10</td>
-                        <td th:text="${product.category}">Electronics</td>
+                        <td class="price" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}">$99.99</td>
                         <td>
-                            <div class="actions-column">
-                                <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-success btn-sm">✏️ Edit</a>
+                            <span class="quantity" 
+                                  th:classappend="${product.quantity < 10} ? 'low' : (${product.quantity < 30} ? 'medium' : 'high')"
+                                  th:text="${product.quantity}">10</span>
+                        </td>
+                        <td><span class="category-badge" th:text="${product.category}">Electronics</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-success btn-sm">Edit</a>
                                 <a th:href="@{/products/delete/{id}(id=${product.id})}" 
                                    class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Are you sure you want to delete this product?')">
-                                    🗑️ Delete
-                                </a>
+                                   onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            
+            <!-- Pagination -->
+            <div th:if="${totalPages != null and totalPages > 1}" class="pagination">
+                <a th:if="${currentPage > 0}" 
+                   th:href="@{${#httpServletRequest.requestURI}(page=${currentPage - 1}, keyword=${keyword}, name=${name}, category=${selectedCategory}, minPrice=${minPrice}, maxPrice=${maxPrice}, sortBy=${sortBy}, sortDir=${sortDir})}"
+                   class="btn btn-secondary btn-sm">← Previous</a>
+                <span th:if="${currentPage <= 0}" class="disabled">← Previous</span>
+                
+                <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:if="${i != currentPage}"
+                       th:href="@{${#httpServletRequest.requestURI}(page=${i}, keyword=${keyword}, name=${name}, category=${selectedCategory}, minPrice=${minPrice}, maxPrice=${maxPrice}, sortBy=${sortBy}, sortDir=${sortDir})}"
+                       th:text="${i + 1}">1</a>
+                    <span th:if="${i == currentPage}" class="active" th:text="${i + 1}">1</span>
+                </span>
+                
+                <a th:if="${currentPage < totalPages - 1}"
+                   th:href="@{${#httpServletRequest.requestURI}(page=${currentPage + 1}, keyword=${keyword}, name=${name}, category=${selectedCategory}, minPrice=${minPrice}, maxPrice=${maxPrice}, sortBy=${sortBy}, sortDir=${sortDir})}"
+                   class="btn btn-secondary btn-sm">Next →</a>
+                <span th:if="${currentPage >= totalPages - 1}" class="disabled">Next →</span>
+            </div>
         </div>
         
         <!-- Empty State -->
-        <div th:if="${products == null or products.isEmpty()}" class="empty-state">
-            <p>No products found. Add your first product!</p>
+        <div th:if="${products == null or products.isEmpty()}" class="table-container">
+            <div class="empty-state">
+                <div class="empty-state-icon">📭</div>
+                <p>No products found.</p>
+                <p style="margin-top: 8px; font-size: 14px;">Try adjusting your search criteria or <a th:href="@{/products/new}" style="color: var(--accent-cyan);">add a new product</a>.</p>
+            </div>
         </div>
     </div>
+    
+    <script>
+        function toggleAdvancedSearch() {
+            const panel = document.getElementById('advancedSearch');
+            const icon = document.getElementById('toggleIcon');
+            panel.classList.toggle('active');
+            icon.textContent = panel.classList.contains('active') ? '▼' : '▶';
+        }
+        
+        // Show advanced search if it was active
+        document.addEventListener('DOMContentLoaded', function() {
+            const panel = document.getElementById('advancedSearch');
+            if (panel.classList.contains('active')) {
+                document.getElementById('toggleIcon').textContent = '▼';
+            }
+        });
+    </script>
 </body>
 </html>
-
